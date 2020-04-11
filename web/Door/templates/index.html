@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<link href="../static/content/command.css" rel="stylesheet" />
+
+
+<div class="readings"> 
+<span style="float:left;">Door Status: </span><div  id="Status" style="float:left;"></div>
+</div>  
+
+{% endblock %}
+ {% block scripts %}
+ <script type="text/javascript">
+    
+    
+  
+
+ $(function(){
+    doPoll()    
+});
+
+function doPoll()
+{
+
+$.ajax({url: "/status/1", success: function(result){
+        console.log(result)
+//        var x = (JSON.parse(result[0])) 
+t = 1
+        result.forEach(function(element) {
+          console.log(element)
+            
+            setTimeout(function() {
+                //$("#Status").html(JSON.parse(element["DoorStatus"]));
+                $("#Status").html(element["DoorStatus"]);
+                
+                
+                }, 200 * t++)
+        });
+        //$("#div1").html(JSON.parse(result[0]["Temperature"]));
+        setTimeout(doPoll,1000);
+
+    }});
+}
+
+    </script>
+
+ <script src="../static/scripts/mustach.js"></script>
+{% endblock %}
+
+
+
